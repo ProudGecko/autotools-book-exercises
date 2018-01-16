@@ -8,7 +8,7 @@ all clean jupiter:
 
 dist: $(distdir).tar.gz
 
-$(distdir).tar.gz: $(distdir)
+$(distdir).tar.gz: FORCE $(distdir)
 	tar chof - $(distdir) | gzip -9 -c >$(distdir).tar.gz
 	rm -rf $(distdir)
 
@@ -18,5 +18,10 @@ $(distdir):
 	cp src/Makefile $(distdir)/src
 	cp src/main.c $(distdir)/src
 
-.PHONY: all clean dist
+# Use of leading - causes Make to ignore exit code and NOT fail on non-zero exit codes
+FORCE:
+	-rm $(distdir).tar.gz &> /dev/null
+	-rm -rf $(distdir) &> /dev/null
+
+.PHONY: FORCE all clean dist
 
