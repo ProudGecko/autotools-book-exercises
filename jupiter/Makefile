@@ -4,14 +4,14 @@ tarname = $(package)
 distdir = $(tarname)-$(version)
 disttar = $(distdir).tar.gz
 
-all clean jupiter:
+all clean check jupiter:
 	$(MAKE) -C src $@
 
 dist: $(disttar)
 
 distcheck: $(disttar)
 	gzip -cd $+ | tar xvf -
-	$(MAKE) -C $(distdir) all clean
+	$(MAKE) -C $(distdir) all check clean
 	rm -rf $(distdir)
 	@echo "*** Package $(disttar) ready for distribution."
 
@@ -30,5 +30,5 @@ FORCE:
 	-rm $(disttar) &> /dev/null
 	-rm -rf $(distdir) &> /dev/null
 
-.PHONY: FORCE all clean dist distcheck
+.PHONY: FORCE all clean check dist distcheck
 
