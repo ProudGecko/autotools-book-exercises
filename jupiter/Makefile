@@ -8,6 +8,12 @@ all clean jupiter:
 
 dist: $(distdir).tar.gz
 
+distcheck: $(distdir).tar.gz
+	gzip -cd $+ | tar xvf -
+	$(MAKE) -C $(distdir) all clean
+	rm -rf $(distdir)
+	@echo "*** Package $(disdir).tar.gz ready for distribution."
+
 $(distdir).tar.gz: FORCE $(distdir)
 	tar chof - $(distdir) | gzip -9 -c >$(distdir).tar.gz
 	rm -rf $(distdir)
@@ -23,5 +29,5 @@ FORCE:
 	-rm $(distdir).tar.gz &> /dev/null
 	-rm -rf $(distdir) &> /dev/null
 
-.PHONY: FORCE all clean dist
+.PHONY: FORCE all clean dist distcheck
 
