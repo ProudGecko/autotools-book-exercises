@@ -6,7 +6,7 @@ disttar = $(distdir).tar.gz
 
 export prefix=/usr/local
 
-all clean check install jupiter:
+all clean check install uninstall jupiter:
 	$(MAKE) -C src $@
 
 dist: $(disttar)
@@ -14,6 +14,9 @@ dist: $(disttar)
 distcheck: $(disttar)
 	gzip -cd $+ | tar xvf -
 	$(MAKE) -C $(distdir) all check clean
+# Use of $$ results in the shell evaluating the "PWD" variable instead of Make
+	$(MAKE) $${PWD}/$(distdir)/_inst install uninstall
+	$(MAKE) -C $(distdir) clean
 	rm -rf $(distdir)
 	@echo "*** Package $(disttar) ready for distribution."
 
@@ -33,4 +36,4 @@ FORCE:
 	-rm -rf $(distdir) &> /dev/null
 
 .PHONY: FORCE all clean check dist distcheck
-.PHONE: install
+.PHONE: install uninstall
