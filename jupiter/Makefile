@@ -4,7 +4,7 @@ tarname = $(package)
 distdir = $(tarname)-$(version)
 disttar = $(distdir).tar.gz
 
-all clean check jupiter:
+all clean check install jupiter:
 	$(MAKE) -C src $@
 
 dist: $(disttar)
@@ -31,4 +31,4 @@ FORCE:
 	-rm -rf $(distdir) &> /dev/null
 
 .PHONY: FORCE all clean check dist distcheck
-
+.PHONE: install
