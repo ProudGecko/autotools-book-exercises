@@ -4,6 +4,8 @@ tarname = $(package)
 distdir = $(tarname)-$(version)
 disttar = $(distdir).tar.gz
 
+export prefix=/usr/local
+
 all clean check install jupiter:
 	$(MAKE) -C src $@
 
