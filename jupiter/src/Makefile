@@ -1,9 +1,12 @@
 sources = main.c
 
+CC = gcc
+CFLAGS = -g -O2
+
 all: jupiter
 
 jupiter: $(sources)
-	gcc -g -O0 -o $@ $+
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $+
 
 check: all
 	./jupiter | grep "Hello from .*jupiter!"
@@ -13,11 +16,11 @@ clean:
 	-rm jupiter
 
 install:
-	install -d $(prefix)/bin
-	install -m 0755 jupiter $(prefix)/bin
+	install -d $(DESTDIR)$(bindir)
+	install -m 0755 jupiter $(DESTDIR)$(bindir)
 
 uninstall:
-	-rrm $(prefix)/bin/jupiter
+	-rm $(DESTDIR)$(bindir)/jupiter
 
 .PHONY: all clean check install uninstall
 

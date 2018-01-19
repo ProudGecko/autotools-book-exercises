@@ -4,7 +4,9 @@ tarname = $(package)
 distdir = $(tarname)-$(version)
 disttar = $(distdir).tar.gz
 
-export prefix=/usr/local
+export prefix = /usr/local
+export exec_prefix = $(prefix)
+export bindir = $(exec_prefix)/bin
 
 all clean check install uninstall jupiter:
 	$(MAKE) -C src $@
@@ -13,9 +15,9 @@ dist: $(disttar)
 
 distcheck: $(disttar)
 	gzip -cd $+ | tar xvf -
-	$(MAKE) -C $(distdir) all check clean
+	$(MAKE) -C $(distdir) all check
 # Use of $$ results in the shell evaluating the "PWD" variable instead of Make
-	$(MAKE) $${PWD}/$(distdir)/_inst install uninstall
+	$(MAKE) -C $(distdir) DESTDIR=$${PWD}/$(distdir)/_inst install uninstall
 	$(MAKE) -C $(distdir) clean
 	rm -rf $(distdir)
 	@echo "*** Package $(disttar) ready for distribution."
