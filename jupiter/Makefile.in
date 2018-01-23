@@ -38,7 +38,7 @@ $(disttar): FORCE $(distdir)
 	rm -rf $(distdir)
 
 $(distdir):
-	mkdir -p $(distdir)/sr
+	mkdir -p $(distdir)/src
 	cp configure $(distdir)
 	cp Makefile.in $(distdir)
 	cp src/Makefile.in $(distdir)/src
