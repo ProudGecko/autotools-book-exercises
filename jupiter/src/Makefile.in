@@ -25,7 +25,7 @@ Makefile: Makefile.in ../config.status
 all: jupiter
 
 jupiter: $(sources)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(srcdir)/$+
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $+
 
 check: all
 	./jupiter | grep "Hello from .*jupiter!"
