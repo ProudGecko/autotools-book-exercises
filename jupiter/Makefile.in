@@ -1,20 +1,31 @@
-package = jupiter
-version = 1.0
-tarname = $(package)
+# @configure_input@
+
+# Package-related substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
 distdir = $(tarname)-$(version)
 disttar = $(distdir).tar.gz
 
-export prefix = /usr/local
-export exec_prefix = $(prefix)
-export bindir = $(exec_prefix)/bin
+# Prefix-related substitution variables
+prefix      = @prefix@
+exec_prefix = @exec_prefix@
+bindir      = @bindir@
 
 all clean check install uninstall jupiter:
 	$(MAKE) -C src $@
+
+Makefile: Makefile.in config.status
+	./config.status $@
+
+config.status: configure
+	./config.status --recheck
 
 dist: $(disttar)
 
 distcheck: $(disttar)
 	gzip -cd $+ | tar xvf -
+	cd $(distdir); ./configure
 	$(MAKE) -C $(distdir) all check
 # Use of $$ results in the shell evaluating the "PWD" variable instead of Make
 	$(MAKE) -C $(distdir) DESTDIR=$${PWD}/$(distdir)/_inst install uninstall
@@ -27,9 +38,10 @@ $(disttar): FORCE $(distdir)
 	rm -rf $(distdir)
 
 $(distdir):
-	mkdir -p $(distdir)/src
-	cp Makefile $(distdir)
-	cp src/Makefile $(distdir)/src
+	mkdir -p $(distdir)/sr
+	cp configure $(distdir)
+	cp Makefile.in $(distdir)
+	cp src/Makefile.in $(distdir)/src
 	cp src/main.c $(distdir)/src
 
 # Use of leading - causes Make to ignore exit code and NOT fail on non-zero exit codes
