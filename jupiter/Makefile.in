@@ -12,6 +12,10 @@ prefix      = @prefix@
 exec_prefix = @exec_prefix@
 bindir      = @bindir@
 
+# VPATH-related substitution variables
+srcdir = @srcdir@
+VPATH  = @srcdir@
+
 all clean check install uninstall jupiter:
 	$(MAKE) -C src $@
 
@@ -39,10 +43,10 @@ $(disttar): FORCE $(distdir)
 
 $(distdir):
 	mkdir -p $(distdir)/src
-	cp configure $(distdir)
-	cp Makefile.in $(distdir)
-	cp src/Makefile.in $(distdir)/src
-	cp src/main.c $(distdir)/src
+	cp $(srcdir)/configure $(distdir)
+	cp $(srcdir)/Makefile.in $(distdir)
+	cp $(srcdir)/src/Makefile.in $(distdir)/src
+	cp $(srcdir)/src/main.c $(distdir)/src
 
 # Use of leading - causes Make to ignore exit code and NOT fail on non-zero exit codes
 FORCE:
